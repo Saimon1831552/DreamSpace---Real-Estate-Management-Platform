@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/64d8b1ba6d.js" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <style>
+        .changing-text-width {
+            width: 9ch;
+            min-width: 12ch;
+            max-width: 16ch;
+        }
+
+        .sprite-icon {
+          width: 44px;
+          height: 44px;
+          display: inline-block;
+          background-image: url('img/icons.jpg');
+          background-size: 775px 176px;
+          background-repeat: no-repeat;
+          background-color: #374151;
+          border-radius: 9999px;
+          transition: background-color 0.3s ease;
+        }
+
+
+        .twitter   { background-position:    0px   0; }
+        .linkedin  { background-position: -155px   0; }
+        .instagram { background-position: -310px   0; }
+        .youtube   { background-position: -465px   0; }
+        .facebook  { background-position: -620px   0; }
+
+        .sprite-icon:hover {
+          background-color: #f3ecec;
+        }
+    </style>
+    <title>Our Dream</title>
+</head>
+<body>
+  <header class="fixed top-0 left-0 w-full bg-white z-50 shadow">
+      <nav class="flex items-center justify-between flex-wrap p-4">
+      
+        <div class="flex items-center gap-2">
+          <img src="https://img.icons8.com/fluency/48/home.png" class="w-8 h-8" alt="Logo" />
+          <h2 class="text-red-600 font-bold text-2xl sm:text-4xl">
+            <span>D</span>ream <span class="text-black">S</span>pace
+            <span class="text-gray-600 font-normal italic text-sm">Nothing new...</span>
+          </h2>
+        </div>
+
+      
+        <div class="block md:hidden">
+          <button id="menuToggle" class="text-2xl text-red-600 focus:outline-none">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+        </div>
+
+        <div id="navbarMenu" class="hidden w-full mt-4 md:flex md:items-center md:justify-between md:mt-0 md:w-auto">
+         
+          <div class="flex flex-col md:flex-row md:gap-7 items-start md:items-center">
+           
+
+
+
+          <div class="flex flex-col gap-3 mt-4 md:mt-0 md:flex-row md:items-center md:gap-4">
+            <a href="login.php" class="hover:text-red-600 font-semibold transition duration-200">Log In</a>
+            <a href="registration.html" class="hover:text-red-600 font-semibold transition duration-200">Sign Up</a>
+          </div>
+        </div>
+      </nav>
+  </header>
+
+
+<main>
+  <section class="flex items-center justify-center bg-[url('./img/img6.jpg')] bg-cover bg-center min-h-[100vh] sm:min-h-screen w-full">
+
+    <div class="flex flex-col items-center justify-center w-full h-full bg-black bg-opacity-75">
+
+      <div class="flex flex-row text-white text-center space-x-2 mt-[220px]">
+        <h1 class="text-6xl sm:text-7xl font-bold mb-4 select-none">Find Your</h1>
+        <p id="changing-text"
+           class="text-6xl sm:text-7xl font-bold transition-opacity duration-500 opacity-100 changing-text-width"
+           aria-live="polite">
+          Dream Home
+        </p>
+      </div>
+
+      <div>
+        <p class="text-white text-lg mt-4 text-center">We are a real estate agency that will help you find the best residence <br> you dream of, let’s discuss for your dream house?</p>
+      </div>
+
+      <div class="mt-8">
+          <div class="max-w-6xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+              
+                  <div class="flex border-b">
+                    <button id="tab-rent"
+                            class="w-1/2 py-4 text-center font-semibold text-gray-900 bg-white border-b-4 border-red-500"
+                            onclick="switchTab('rent')">
+                      FOR RENT
+                    </button>
+                    <button id="tab-sale"
+                            class="w-1/2 py-4 text-center font-semibold text-gray-500 bg-gray-100"
+                            onclick="switchTab('sale')">
+                      FOR SALE
+                    </button>
+                  </div>
+              
+                 
+                  <form id="search-form" class="px-6 py-6 space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-5 gap-4 items-end">
+              
+                    
+                      <div class="col-span-1 sm:col-span-2">
+                        <label class="text-sm text-gray-500">Keyword</label>
+                        <input type="text" id="keyword" name="keyword" placeholder="Search Keyword."
+                               class="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none">
+                      </div>
+              
+                      <div>
+                        <label class="text-sm text-gray-500">Location</label>
+                        <div class="flex items-center border border-gray-300 rounded">
+                          <input type="text" id="location" name="location" placeholder="Search Location" class="px-3 py-2 w-full focus:outline-none">
+                          <span class="px-3 text-gray-400"><i class="fa-solid fa-location-dot"></i></span>
+                        </div>
+                      </div>
+              
+                   
+                      <div>
+                        <label for="property-type" class="text-sm text-gray-500">Type</label>
+                        <select id="property-type" name="type" class="w-full border border-gray-300 px-3 py-2 rounded  focus::outline-none">
+                          <option value="">All</option>
+                          <option>Apartment</option>
+                          <option>House</option>
+                          <option>Commercial</option>
+                          <option>Villa</option>
+                          <option>Studio</option>
+                          <option>Office</option>
+                        </select>
+                      </div>
+              
+                    
+                      <div class="flex items-center space-x-2">
+              
+                        <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-5 py-2 rounded">
+                          Search
+                        </button>
+                      </div>
+                    </div>
+              
+                   
+                    <p id="selected-tab" class="text-sm text-gray-500">Currently Showing: <strong>FOR RENT</strong></p>
+                  </form>
+         </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div>
+      <h2 class="text-base text-red-500 font-semibold text-center mt-20 mb-2">Featured Properties</h2>
+      <p class="text-center text-3xl text-black font-semibold mb-10">Recommended For You</p>
+    </div>
+
+    <div id="filter-buttons" class="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto mb-10">
+      <button data-type="All" class="filter-btn bg-red-700 text-white font-semibold px-5 py-2 rounded">View All</button>
+      <button data-type="Apartment" class="filter-btn bg-gray-200 text-black hover:bg-red-700 hover:text-white font-semibold px-5 py-2 rounded">Apartment</button>
+      <button data-type="Villa" class="filter-btn bg-gray-200 text-black hover:bg-red-700 hover:text-white font-semibold px-5 py-2 rounded">Villa</button>
+      <button data-type="Studio" class="filter-btn bg-gray-200 text-black hover:bg-red-700 hover:text-white font-semibold px-5 py-2 rounded">Studio</button>
+      <button data-type="House" class="filter-btn bg-gray-200 text-black hover:bg-red-700 hover:text-white font-semibold px-5 py-2 rounded">House</button>
+      <button data-type="Office" class="filter-btn bg-gray-200 text-black hover:bg-red-700 hover:text-white font-semibold px-5 py-2 rounded">Office</button>
+    </div>
+
+    <div id="property-listings" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 max-w-6xl mx-auto">
+      <!-- Property cards will be injected here by JavaScript -->
+    </div>
+
+    <div class="flex justify-center items-center mt-10 mb-20">
+         <a href="properties.php" id="view-all-properties-btn" class="bg-red-700 text-white font-semibold px-6 py-3 rounded">View All Properties</a>
+    </div>
+
+    <div class="mx-auto w-[80%] md:w-[60%] h-[500px] rounded-lg border border-gray-300 mb-20" id="map"></div>
+
+  </section>
+
+  <section>
+          <div class="flex flex-col items-center justify-center text-center mt-25 mb-10">
+            <p class="text-lg font-semibold text-red-500">Our Services</p>
+            <h2 class="text-4xl font-bold text-black mb-6">What We Offer</h2>
+
+                <div class="flex flex-col md:flex-row gap-8 md:gap-20 mt-10 mx-auto p-4">
+
+                    <div class="flex flex-col items-start gap-4 text-start">
+                         <img src="./img/buy.png" alt="" class="w-[80px] h-[80px] ">
+                         <p class="text-2xl font-semibold text-black">Buy A New Home</p>
+                         <p class="text-gray-600 text-sm">Discover your dream home effortlessly. Explore <br> diverse properties and expert guidance for a <br> seamless buying experience</p>
+
+                         <a href="#" class="text-sm font-semibold border-b-2 hover:border-red-500">Learn More</a>
+                    </div>
+
+                    <div class="flex flex-col items-start gap-4 text-start">
+                         <img src="./img/rent.png" alt="" class="w-[80px] h-[80px] object-cover transition duration-500 ease-in-out">
+                         <p class="text-2xl font-semibold text-black">Rent A Home</p>
+                         <p class="text-gray-600 text-sm">Discover your perfect rental effortlessly. Explore a <br> diverse variety of listings tailored precisely to suit <br> your unique lifestyle needs.</p>
+
+                         <a href="#" class="text-sm font-semibold border-b-2 hover:border-red-500">Learn More</a>
+                    </div>
+
+                    <div class="flex flex-col items-start gap-4 text-start">
+                         <img src="./img/sale.png" alt="" class="w-[80px] h-[80px] object-cover transition duration-500 ease-in-out">
+                         <p class="text-2xl font-semibold text-black">Sell A Home</p>
+                         <p class="text-gray-600 text-sm">Sell confidently with expert guidance and effective <br> strategies, showcasing your property's best features <br> for a successful sale.</p>
+
+                          <a href="#" class="text-sm font-semibold border-b-2 hover:border-red-500">Learn More</a>
+                    </div>
+
+                </div>
+          </div>
+  </section>
+</main>
+
+<footer class="bg-[#0b1120] text-white pt-16 pb-8 px-6 sm:px-12">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 border-b border-gray-600 pb-10">
+    
+    
+    <div>
+      <div class="flex items-center space-x-2 mb-4">
+        <img src="https://img.icons8.com/fluency/48/home.png" alt="Logo" class="w-8 h-8">
+        <span class="text-2xl font-bold">Dream</span>
+      </div>
+      <p class="text-gray-300 text-sm mb-4">Specializes in providing high-class tours for those in need. <a href="#" class="underline text-red-400">Contact Us</a></p>
+      <ul class="text-sm space-y-2">
+        <li class="flex items-center gap-2">
+          <i class="fa-solid fa-location-dot text-red-500"></i> 
+          101 E 129th St, East Chicago, IN 46312, US
+        </li>
+        <li class="flex items-center gap-2">
+          <i class="fa-solid fa-phone text-red-500"></i> 
+          1-333–345–6868
+        </li>
+        <li class="flex items-center gap-2">
+          <i class="fa-solid fa-envelope text-red-500"></i> 
+          themesflat@gmail.com
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="text-white font-bold mb-4">Categories</h3>
+      <ul class="space-y-2 text-gray-300 text-sm">
+        <li><a href="#">Pricing Plans</a></li>
+        <li><a href="#">Our Services</a></li>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+
+
+    <div>
+      <h3 class="text-white font-bold mb-4">Our Company</h3>
+      <ul class="space-y-2 text-gray-300 text-sm">
+        <li><a href="#">Property For Sale</a></li>
+        <li><a href="#">Property For Rent</a></li>
+        <li><a href="#">Property For Buy</a></li>
+        <li><a href="#">Our Agents</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="text-white font-bold mb-4">Newsletter</h3>
+      <p class="text-sm text-gray-300 mb-4">Your Weekly/Monthly Dose of Knowledge and Inspiration</p>
+      <form class="relative">
+        <input type="email" placeholder="Your email address" class="w-full px-4 py-2 rounded border border-gray-500 bg-transparent text-sm text-white focus:outline-none" />
+        <button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 text-red-500">
+          <i class="fa-regular fa-paper-plane"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto mt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-400 px-4">
+    <p>©2024 Homzen. All Rights Reserved.</p>
+    <div class="flex space-x-4">
+      <a href="#">Terms Of Services</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Cookie Policy</a>
+    </div>
+  </div>
+
+<div class="max-w-7xl mx-auto mt-6 px-4">
+  <div class="flex flex-col md:flex-row justify-between items-center gap-3">
+    <span class="text-white">Follow Us:</span>
+    <div class="flex gap-2">
+      <a href="#" class="sprite-icon twitter" aria-label="Twitter"></a>
+      <a href="#" class="sprite-icon linkedin" aria-label="LinkedIn"></a>
+      <a href="#" class="sprite-icon instagram" aria-label="Instagram"></a>
+      <a href="#" class="sprite-icon youtube" aria-label="YouTube"></a>
+      <a href="#" class="sprite-icon facebook" aria-label="Facebook"></a>
+    </div>
+  </div>
+</div>
+
+
+    <a href="#top" class="ml-4 bg-white text-red-600 p-2 rounded-full shadow hover:bg-red-600 hover:text-white">
+      <i class="fa-solid fa-arrow-up"></i>
+    </a>
+  </div>
+</footer>
+
+<script src="./index.js"></script>
+<script src="./search.js"></script>
+
+</body>
+</html>
